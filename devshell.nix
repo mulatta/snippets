@@ -1,5 +1,9 @@
 { pkgs }:
 
 pkgs.mkShell {
-  packages = [ pkgs.rclone ];
+  packages = with pkgs; [
+    nushell
+    pueue
+    rclone
+  ];
 }

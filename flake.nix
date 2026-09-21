@@ -30,6 +30,17 @@
           }
         );
 
+      packageNames = builtins.attrNames (
+        nixpkgs.lib.filterAttrs (_name: type: type == "directory") (builtins.readDir ./packages)
+      );
+
+      packages = eachSystem (
+        { pkgs, ... }:
+        nixpkgs.lib.genAttrs packageNames (
+          pname: pkgs.callPackage (./packages + "/${pname}/package.nix") { }
+        )
+      );
+
       treefmtEval = eachSystem (
         { pkgs, ... }:
         treefmt-nix.lib.evalModule pkgs {
@@ -43,6 +54,8 @@
       );
     in
     {
+      inherit packages;
+
       checks = eachSystem (
         { system, ... }:
         {
