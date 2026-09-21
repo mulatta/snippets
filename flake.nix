@@ -50,6 +50,10 @@
             nixfmt.enable = true;
             statix.enable = true;
           };
+          settings.formatter.nufmt = {
+            command = nixpkgs.lib.getExe pkgs.nufmt;
+            includes = [ "*.nu" ];
+          };
         }
       );
     in
