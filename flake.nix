@@ -50,6 +50,13 @@
         }
       );
 
+      devShells = eachSystem (
+        { pkgs, ... }:
+        {
+          default = import ./devshell.nix { inherit pkgs; };
+        }
+      );
+
       formatter = eachSystem ({ system, ... }: treefmtEval.${system}.config.build.wrapper);
     };
 }
